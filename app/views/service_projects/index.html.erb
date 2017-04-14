@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Service Projects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Location</th>
+      <th>Host</th>
+      <th>Project Type</th>
+      <th>Max volunteers</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_projects.each do |service_project| %>
+      <tr>
+        <td><%= service_project.name %></td>
+        <td><%= service_project.start_time %></td>
+        <td><%= service_project.end_time %></td>
+        <td><%= service_project.location %></td>
+        <td><%= service_project.host %></td>
+        <td><%= service_project.project_type %></td>
+        <td><%= service_project.max_volunteers %></td>
+        <td><%= link_to 'Show', service_project %></td>
+        <td><%= link_to 'Edit', edit_service_project_path(service_project) %></td>
+        <td><%= link_to 'Destroy', service_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Service Project', new_service_project_path %>

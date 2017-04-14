@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @lineage.name %>
+</p>
+
+<p>
+  <strong>Head:</strong>
+  <%= @lineage.head %>
+</p>
+
+<p>
+  <strong>Members:</strong>
+  <% @lineage.users.each do |user| %>
+    <br><%= user.preferred_full_name %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_lineage_path(@lineage) %> |
+<%= link_to 'Back', lineages_path %>

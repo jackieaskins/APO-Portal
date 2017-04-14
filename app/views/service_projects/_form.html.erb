@@ -1,0 +1,16 @@
+<%= simple_form_for(@service_project) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :start_time %>
+    <%= f.input :end_time %>
+    <%= f.input :location %>
+    <%= f.input :project_type, collection: ['General Service Project', 'Non-APO Project', 'Donation Hours', 'Soup Kitchen', 'Publicity'] %>
+    <%= f.input :max_volunteers, as: :integer %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

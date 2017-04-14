@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  start_time: 2017-04-08 13:11:55
+  end_time: 2017-04-08 13:11:55
+  location: MyString
+  host: one
+  type: 
+  max_volunteers: 1
+
+two:
+  name: MyString
+  start_time: 2017-04-08 13:11:55
+  end_time: 2017-04-08 13:11:55
+  location: MyString
+  host: two
+  type: 
+  max_volunteers: 1

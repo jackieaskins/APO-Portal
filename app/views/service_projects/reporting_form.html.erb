@@ -1,0 +1,19 @@
+<h1>Report Service Project</h1>
+
+<h3><%= @service_project.name %></h3>
+<p>
+  <strong>Time:</strong>
+  <%= @service_project.start_time %> - <%= @service_project.end_time %>
+</p>
+
+<form action="<%= service_project_report_path(@service_project) %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
+    <input type="checkbox" name="service_project[attendees][]", value="<%= user.id %>"> <%= user.preferred_full_name %> Points:
+    <input type="number" name="service_project[attendees_points][<%= user.id %>][]" value="<%= @project_length %>"><br>
+  <% end %>
+  <input type="submit">
+</form>
+
+
+

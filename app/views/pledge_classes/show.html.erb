@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @pledge_class.name %>
+</p>
+
+<p>
+  <strong>Semester:</strong>
+  <%= @pledge_class.semester %>
+</p>
+
+<p>
+  <strong>Members:</strong>
+  <% @pledge_class.users.each do |user| %>
+    <br><%= user.preferred_full_name %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_pledge_class_path(@pledge_class) %> |
+<%= link_to 'Back', pledge_classes_path %>

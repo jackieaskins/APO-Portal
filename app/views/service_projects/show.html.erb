@@ -1,0 +1,101 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @service_project.name %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @service_project.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @service_project.end_time %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @service_project.location %>
+</p>
+
+<p>
+  <strong>Host:</strong>
+  <% if @service_project.host  %>
+    <%= @service_project.host.preferred_full_name %>
+  <% else %>
+    No host
+  <% end %>
+</p>
+
+<p>
+  <strong>Project Type:</strong>
+  <%= @service_project.project_type %>
+</p>
+
+<p>
+  <strong>Max volunteers:</strong>
+  <%= @service_project.max_volunteers %>
+</p>
+
+<% if current_user.pending_service_projects.include? @service_project %>
+  <p><strong>Drop Project</strong></p>
+  <%= link_to 'Drop', service_project_drop_path(@service_project), method: :delete %>
+<% else %>
+  <p><strong>Sign Up for Project</strong></p>
+  <form action="/service_projects/<%= @service_project.id %>/sign_up" method="post" class="form-inline">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label for="host_filter" class="control-label select required">
+      <abbr title="required">*</abbr> Would you like to be host?
+    </label>
+    <select name="host_filter" id="" class="form-control select required">
+      <option value=""></option>
+      <option value="Yes">Yes</option>
+      <option value="Yes, if necessary">Yes, if necessary</option>
+      <option value="No">No</option>
+    </select>
+    <input type="submit" value="Sign Up" class="btn btn-default">
+  </form>
+<% end %>
+
+
+<p><strong>Attendees</strong></p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Phone Number</th>
+    <th>Email</th>
+    <th>Host?</th>
+  </tr>
+  <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
+    <tr>
+      <td><%= user.preferred_full_name %></td>
+      <td><%= user.phone_number %></td>
+      <td><%= user.email %></td>
+      <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><strong>Waitlist</strong></p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Phone Number</th>
+    <th>Email</th>
+    <th>Host?</th>
+  </tr>
+  <% @service_project.pending_waitlist_attendees.each do |user| %>
+    <tr>
+      <td><%= user.preferred_full_name %></td>
+      <td><%= user.phone_number %></td>
+      <td><%= user.email %></td>
+      <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Report Service Project', service_project_reporting_form_path(@service_project) %> |
+<%= link_to 'Edit', edit_service_project_path(@service_project) %> |
+<%= link_to 'Back', service_projects_path %>
