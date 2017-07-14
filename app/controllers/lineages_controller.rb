@@ -1,5 +1,6 @@
 class LineagesController < ApplicationController
   before_action :set_lineage, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /lineages
   # GET /lineages.json

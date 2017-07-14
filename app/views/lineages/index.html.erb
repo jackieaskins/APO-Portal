@@ -2,7 +2,7 @@
 
 <h1>Lineages</h1>
 
-<table>
+<table class="table table-hover table-condensed">
   <thead>
     <tr>
       <th>Name</th>
@@ -15,7 +15,7 @@
     <% @lineages.each do |lineage| %>
       <tr>
         <td><%= lineage.name %></td>
-        <td><%= lineage.head %></td>
+        <td><%= lineage.head.preferred_full_name if lineage.head %></td>
         <td><%= link_to 'Show', lineage %></td>
         <td><%= link_to 'Edit', edit_lineage_path(lineage) %></td>
         <td><%= link_to 'Destroy', lineage, method: :delete, data: { confirm: 'Are you sure?' } %></td>

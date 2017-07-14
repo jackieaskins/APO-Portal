@@ -1,2 +1,38 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% if current_user %>
+  <h1>Welcome, <%= current_user.preferred_full_name %></h1>
+
+  <h4>Your Pending Service Projects:</h4>
+  <table class="table table-hover table-condensed">
+    <tr>
+      <th>Project Name</th>
+      <th>Project Time</th>
+      <th>Project Type</th>
+      <th>Project Length</th>
+    </tr>
+    <% current_user.pending_service_projects.each do |project| %>
+      <tr>
+        <td><%= project.name %></td>
+        <td><%= project.start_time.to_date %></td>
+        <td><%= project.project_type %></td>
+        <td><%= project.project_length %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h4>Your Reported Service Projects:</h4>
+  <table class="table table-hover table-condensed">
+    <tr>
+      <th>Project Name</th>
+      <th>Project Date</th>
+      <th>Project Type</th>
+      <th>Project Hours</th>
+    </tr>
+    <% current_user.reported_service_projects.each do |project| %>
+      <tr>
+        <td><%= project.name %></td>
+        <td><%= project.start_time.to_date %></td>
+        <td><%= project.project_type %></td>
+        <td><%= ReportedServiceProjectSignup.find_by(user: current_user, service_project: project).points %></td>
+      </tr>
+    <% end %>
+<% end %>

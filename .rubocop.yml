@@ -10,5 +10,8 @@ Metrics/AbcSize:
   Enabled: false
 AllCops:
   Exclude:
-    - 'bin/*'
-    - 'db/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'test/**/*'
+    - 'config/**/*'
+

@@ -1,5 +1,6 @@
 class PledgeClassesController < ApplicationController
   before_action :set_pledge_class, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /pledge_classes
   # GET /pledge_classes.json

@@ -1,19 +1,56 @@
-<h1>Report Service Project</h1>
+<h1>Report <%= @service_project.name %></h1>
 
-<h3><%= @service_project.name %></h3>
 <p>
   <strong>Time:</strong>
-  <%= @service_project.start_time %> - <%= @service_project.end_time %>
+  <%= @service_project.start_end_time %>
 </p>
 
-<form action="<%= service_project_report_path(@service_project) %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
-    <input type="checkbox" name="service_project[attendees][]", value="<%= user.id %>"> <%= user.preferred_full_name %> Points:
-    <input type="number" name="service_project[attendees_points][<%= user.id %>][]" value="<%= @project_length %>"><br>
-  <% end %>
-  <input type="submit">
-</form>
+<hr>
 
+<%= form_tag service_project_report_path(@service_project), method: 'post', id: 'report_form' do %>
+  <%= hidden_field_tag 'users', @users, id: 'users' %>
+  <div>
+    <p><strong>Project Logistics:</strong></p>
+    <div class="form-group">
+      <%= label_tag 'travel_time', 'How long (in hours) did it take to get to the project?' %>
+      <%= text_field_tag 'travel_time', '0', class: 'form-control logistics-number-field' %>
+      <span hidden>Please enter a number</span>
+    </div>
+    <div class="form-group">
+      <%= label_tag 'project_length', 'How many hours were you at the service project?' %>
+      <%= text_field_tag 'project_length', @service_project.project_length, class: 'form-control logistics-number-field', id: 'project_length' %>
+      <span hidden>Please enter a number</span>
+    </div>
 
+    <%= button_tag 'Specify Attendees', type: 'button', class: 'btn btn-default', id: 'specify_attendees' %>
+
+    <hr>
+
+    <div id="project_attendee_info" class="clearfix" hidden>
+      <p><strong>Project Attendees:</strong></p>
+      <p class="help-block">Place a checkmark next to everyone that attended the project.</p>
+      <table class="table form-group" id="attendees_table">
+        <tr>
+          <th>Attended?</th>
+          <th>Name</th>
+          <th colspan="2">Hours</th>
+        </tr>
+        <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
+          <tr>
+            <td><%= check_box_tag 'attendees[]', user.id, true %></td>
+            <td><%= user.preferred_full_name %></td>
+            <td colspan="2">
+                <%= text_field_tag "attendees_points[#{user.id}]", @service_project.project_length, class: 'form-control service-project-points attendees-number-field' %>
+                <span hidden>Please enter a number</span>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="additional_content_row" hidden><%= render partial: 'service_projects/additional_attendee_row' %></tr>
+      </table>
+      <%= button_tag 'Add Additional Attendee', type: 'button', class: 'btn btn-default pull-right', id: 'add_additional_attendee' %>
+    </div>
+
+    <%= button_tag 'Submit', class: 'btn btn-default submit-btn', disabled: true %>
+<% end %>
+<br>
 

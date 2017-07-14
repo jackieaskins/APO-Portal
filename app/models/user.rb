@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :pending_service_project_signups
   has_many :pending_service_projects, through: :pending_service_project_signups, source: :service_project
 
+  has_many :reported_service_project_signups
+  has_many :reported_service_projects, through: :reported_service_project_signups, source: :service_project
+
   def preferred_full_name
     preferred_name && !preferred_name.empty? ? "#{preferred_name} #{last_name}" : "#{first_name} #{last_name}"
   end

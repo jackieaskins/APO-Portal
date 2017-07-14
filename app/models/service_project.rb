@@ -45,6 +45,16 @@ class ServiceProject < ApplicationRecord
     pending_service_project_signups.order(:created_at).where(waitlist: false).map(&:user)
   end
 
+  def project_length
+    (end_time - start_time) / 1.hours
+  end
+
+  def start_end_time
+    start_time_f = start_time.strftime('%m/%d/%y %I:%M %p')
+    end_time_f = start_time.to_date == end_time.to_date ? end_time.strftime('%I:%M %p') : end_time.strftime('%m/%d/%y %I:%M %p')
+    "#{start_time_f} - #{end_time_f}"
+  end
+
   private
 
   def compute_new_host(sign_ups, yeses, maybes)
