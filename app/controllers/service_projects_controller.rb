@@ -1,6 +1,6 @@
 class ServiceProjectsController < ApplicationController
-  before_action :set_service_project, except: [:index, :new, :create]
   before_action :authenticate_user!
+  before_action :set_service_project, except: [:index, :new, :create]
 
   # GET /service_projects
   # GET /service_projects.json
@@ -77,13 +77,13 @@ class ServiceProjectsController < ApplicationController
   end
 
   def report
-    p params
     params[:attendees_points].each do |attendee_id, points|
-      project_points = (params[:attendees] + params[:additional_attendees]).include?(attendee_id) ? points : -1
+      all_attendees = params[:additional_attendees] ? params[:attendees] + params[:additional_attendees] : params[:attendees]
+      project_points = all_attendees.include?(attendee_id) ? points : -1
       User.find(attendee_id).reported_service_project_signups.create(service_project: @service_project, points: project_points)
     end
 
-    redirect_to service_project_reporting_form_path(@service_project)
+    redirect_to @service_project
   end
 
   private

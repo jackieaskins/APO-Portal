@@ -7,7 +7,8 @@
 
 <p>
   <strong>Head:</strong>
-  <%= @lineage.head.preferred_full_name %>
+  <%= @lineage.head.preferred_full_name if @lineage.head %>
+
 </p>
 
 <p>

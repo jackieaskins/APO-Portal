@@ -1,0 +1,22 @@
+<%= simple_form_for(@fellowship) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.hidden_field :current_user, value: current_user.id, name: 'fellowship[fellowship_hosts_attributes][1][host_id]' if @fellowship.new_record? %>
+    <%= f.input :current_user, collection: [current_user], label: 'Host 1', label_method: :preferred_full_name, disabled: true, collection: [current_user], selected: current_user %>
+    <%= f.simple_fields_for :fellowship_hosts do |fellowship_host_form| %>
+      <%= fellowship_host_form.input :host_id, label: 'Host 2', collection: User.where.not(id: current_user.id), label_method: :preferred_full_name, disabled: !@fellowship.new_record?, value_method: :id unless fellowship_host_form.object.host_id == current_user.id %>
+    <% end %>
+    <%= f.input :has_signup_form, label: 'Would you like a sign up form?' %>
+    <%= f.input :fellowship_type, collection: ['Regular', 'Recurring'] %>
+    <%= f.input :location %>
+    <%= f.input :description %>
+    <%= f.input :start_time %>
+    <%= f.input :end_time %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

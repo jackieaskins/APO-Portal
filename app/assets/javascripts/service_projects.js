@@ -1,85 +1,85 @@
 $(document).on('turbolinks:load', function () {
-    var $specify_attendees = $('#specify_attendees');
-    var $project_length = $('#project_length');
-    var $travel_time = $('#travel_time');
-    var $service_project_points = $('.service-project-points');
-    var $submit_btn = $('.submit-btn');
-    var $project_attendee_info = $('#project_attendee_info');
-    var $additional_attendees = $('.additional-attendees');
-    var $add_additional_attendee = $('#add_additional_attendee');
-    var $attendees_table = $('#project_attendee_info');
-    var $additional_content_row = $('#additional_content_row');
-    var $logistics_number_field = $('.logistics-number-field');
-    var $attendees_number_field = $('.attendees-number-field');
-    var $remove_row= $('.remove-row');
+    var LOGISTICS_NUMBER_FIELD = '.logistics-number-field';
+    var TRAVEL_TIME = '#travel_time';
+    var PROJECT_LENGTH = '#project_length';
+    var SPECIFY_ATTENDEES_BTN = '#specify_attendees_btn';
+    var PROJECT_ATTENDEE_INFO = '#project_attendee_info';
+    var SERVICE_PROJECT_POINTS = '.service-project-points';
+    var ATTENDEES_NUMBER_FIELD = '.attendees-number-field';
+    var ADDITIONAL_ATTENDEES = '.additional-attendees';
+    var ADD_ADDITIONAL_ATTENDEE = '#add_additional_attendee';
+    var ADDITIONAL_CONTENT_ROW = '#additional_content_row';
+    var REMOVE_ROW = '.remove-row';
+    var SUBMIT_BTN = '.submit-btn';
 
-    var total_project_time = 0;
+    var totalProjectLength = 0;
 
-    $(document).on('keyup paste', '.attendees-number-field', function() {
+    $(LOGISTICS_NUMBER_FIELD).on('keyup paste', function () {
         var isNumber = numberFieldVerification($(this).val());
         if (isNumber) {
             $(this).parent().removeClass('has-error');
             $(this).next().removeClass('help-block');
-            $submit_btn.removeAttr('disabled');
-        } else {
-            $(this).parent().addClass('has-error');
-            $(this).next().addClass('help-block');
-            $submit_btn.attr('disabled', true);
-        }
-    });
-
-    $(document).on('click', '.remove-row', function () {
-        $(this).parents('tr').remove();
-    });
-
-    $logistics_number_field.on('keyup paste', function() {
-        var isNumber = numberFieldVerification($(this).val());
-        if (isNumber) {
-            $(this).parent().removeClass('has-error');
-            $(this).next().removeClass('help-block');
-            if ($project_attendee_info.is(':hidden')) {
-                $specify_attendees.removeAttr('disabled');
+            if ($(PROJECT_ATTENDEE_INFO).is(':hidden')) {
+                $(SPECIFY_ATTENDEES_BTN).prop('disabled', false);
             }
         } else {
             $(this).parent().addClass('has-error');
             $(this).next().addClass('help-block');
-            $specify_attendees.attr('disabled', true);
+            $(SPECIFY_ATTENDEES_BTN).prop('disabled', true);
         }
     });
 
-    $specify_attendees.click(function () {
-        total_project_length = parseFloat($project_length.val());
-        var travel_time = parseFloat($travel_time.val());
-        if (travel_time >= 0.5) {
-            total_project_length += travel_time;
-        }
-        $service_project_points.val(total_project_length);
-        $submit_btn.removeAttr('disabled');
-        $project_attendee_info.removeAttr('hidden');
-        $specify_attendees.attr('disabled', true);
-    });
-
-    $(document).on('change', '.additional-attendees', function () {
-        var attendee_id = $(this).find(':selected').val();
-        if (attendee_id === '') {
-            $submit_btn.attr('disabled', true);
+    $(document).on('keyup paste', ATTENDEES_NUMBER_FIELD, function () {
+        var isNumber = numberFieldVerification($(this).val());
+        if (isNumber) {
+            $(this).parent().removeClass('has-error');
+            $(this).next().removeClass('help-block');
+            $(SUBMIT_BTN).prop('disabled', false);
         } else {
-            $(this).parent().prev().children().val(attendee_id);
-            $(this).parent().next().children().attr('name', "attendees_points[" + attendee_id + "]");
-            $submit_btn.removeAttr('disabled');
+            $(this).parent().addClass('has-error');
+            $(this).next().addClass('help-block');
+            $(SUBMIT_BTN).prop('disabled', true);
         }
     });
 
-    $add_additional_attendee.click(function () {
-        var $new_row = $additional_content_row.clone();
-        $new_row.removeAttr('id');
-        $new_row.removeAttr('hidden');
-        $new_row.find('input.service-project-points').removeAttr('disabled');
-        $new_row.find('select').removeAttr('disabled');
-        $additional_content_row.before($new_row);
-        $submit_btn.attr('disabled', true);
+    $(SPECIFY_ATTENDEES_BTN).click(function () {
+        totalProjectLength = parseFloat($(PROJECT_LENGTH).val());
+        var travelTime = parseFloat($(TRAVEL_TIME).val());
+        if (travelTime >= 0.5) {
+            totalProjectLength += travelTime;
+        }
+        $(SERVICE_PROJECT_POINTS).val(totalProjectLength);
+        $(SUBMIT_BTN).prop('disabled', false);
+        $(PROJECT_ATTENDEE_INFO).removeAttr('hidden');
+        $(SPECIFY_ATTENDEES_BTN).prop('disabled', true);
     });
 
+    $(ADD_ADDITIONAL_ATTENDEE).click(function () {
+        var newRow = $(ADDITIONAL_CONTENT_ROW).clone();
+        newRow.removeAttr('id');
+        newRow.removeAttr('hidden');
+        newRow.find('input.service-project-points').prop('disabled', false);
+        newRow.find('select').prop('disabled', false);
+        $(ADDITIONAL_CONTENT_ROW).before(newRow);
+        $(SUBMIT_BTN).prop('disabled', true);
+    });
+
+    $(document).on('change', ADDITIONAL_ATTENDEES, function () {
+        var attendeeId = $(this).find(':selected').val();
+        if (attendeeId === '') {
+            $(SUBMIT_BTN).prop('disabled', true);
+        } else {
+            $(this).parent().prev().children().val(attendeeId);
+            $(this).parent().next().children().attr('name', "attendees_points[" + attendeeId + "]");
+            $(SUBMIT_BTN).prop('disabled', false);
+        }
+    });
+
+    $(document).on('click', REMOVE_ROW, function () {
+        $(this).parents('tr').remove();
+    });
+
+    // Additional Functions
     function numberFieldVerification(val) {
         var isNumber = true;
         if (val !== '') {
@@ -97,6 +97,5 @@ $(document).on('turbolinks:load', function () {
         }
         return isNumber;
     }
-
 });
 

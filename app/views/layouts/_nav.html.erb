@@ -16,6 +16,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to 'Lineages', lineages_path %></li>
         <li><%= link_to 'Pledge Classes', pledge_classes_path %></li>
+        <li><%= link_to 'Fellowships', fellowships_path %></li>
         <li><%= link_to 'Service Projects', service_projects_path %></li>
         <% if user_signed_in? %>
           <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>

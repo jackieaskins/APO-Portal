@@ -10,12 +10,14 @@
       <th>Project Length</th>
     </tr>
     <% current_user.pending_service_projects.each do |project| %>
-      <tr>
-        <td><%= project.name %></td>
-        <td><%= project.start_time.to_date %></td>
-        <td><%= project.project_type %></td>
-        <td><%= project.project_length %></td>
-      </tr>
+      <% if project.reported_service_project_signups.size == 0 %>
+        <tr>
+          <td><%= project.name %></td>
+          <td><%= project.start_time.to_date %></td>
+          <td><%= project.project_type %></td>
+          <td><%= project.project_length %></td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 
@@ -35,4 +37,6 @@
         <td><%= ReportedServiceProjectSignup.find_by(user: current_user, service_project: project).points %></td>
       </tr>
     <% end %>
+<% else %>
+  You should probably sign up or log in.
 <% end %>

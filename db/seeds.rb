@@ -2,7 +2,7 @@ dollar_sign_lin = Lineage.create!(name: '$lin')
 wincest_lin = Lineage.create!(name: 'Wincest')
 alpha_chi = PledgeClass.create!(name: 'Alpha Chi')
 User.create!(
-  email: 'askinsj@sas.upenn.edu',
+  email: 'jackie@example.com',
   password: '123456',
   password_confirmation: '123456',
   first_name: 'Jacqueline',
@@ -19,7 +19,7 @@ User.create!(
   birthday: '1996-07-15'
 )
 User.create!(
-  email: 'logancas@sas.upenn.edu',
+  email: 'logan@example.com',
   password: '123456',
   password_confirmation: '123456',
   first_name: 'Logan',

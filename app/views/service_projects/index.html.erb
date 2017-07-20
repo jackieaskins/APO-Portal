@@ -23,7 +23,7 @@
           <%= service_project.start_end_time %>
         </td>
         <td><%= service_project.location %></td>
-        <td><%= service_project.host.preferred_full_name %></td>
+        <td><%= service_project.host.preferred_full_name if service_project.host %></td>
         <td><%= service_project.project_type %></td>
         <td><%= service_project.max_volunteers %></td>
         <td><%= link_to 'Show', service_project %></td>

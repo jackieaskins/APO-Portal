@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170409045650) do
+ActiveRecord::Schema.define(version: 20170715042933) do
+
+  create_table "fellowship_hosts", force: :cascade do |t|
+    t.integer  "fellowship_id"
+    t.integer  "host_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["fellowship_id"], name: "index_fellowship_hosts_on_fellowship_id"
+    t.index ["host_id"], name: "index_fellowship_hosts_on_host_id"
+  end
+
+  create_table "fellowships", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "has_signup_form"
+    t.string   "fellowship_type"
+    t.string   "location"
+    t.string   "description"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "lineages", force: :cascade do |t|
     t.string   "name"
@@ -18,6 +39,15 @@ ActiveRecord::Schema.define(version: 20170409045650) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["head_id"], name: "index_lineages_on_head_id"
+  end
+
+  create_table "pending_fellowship_signups", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "fellowship_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["fellowship_id"], name: "index_pending_fellowship_signups_on_fellowship_id"
+    t.index ["user_id"], name: "index_pending_fellowship_signups_on_user_id"
   end
 
   create_table "pending_service_project_signups", force: :cascade do |t|
@@ -36,6 +66,16 @@ ActiveRecord::Schema.define(version: 20170409045650) do
     t.string   "semester"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "reported_fellowship_signups", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "fellowship_id"
+    t.decimal  "points"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["fellowship_id"], name: "index_reported_fellowship_signups_on_fellowship_id"
+    t.index ["user_id"], name: "index_reported_fellowship_signups_on_user_id"
   end
 
   create_table "reported_service_project_signups", force: :cascade do |t|

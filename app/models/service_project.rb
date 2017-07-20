@@ -5,6 +5,9 @@ class ServiceProject < ApplicationRecord
 
   has_many :pending_service_project_signups, dependent: :destroy
   has_many :pending_attendees, through: :pending_service_project_signups, source: :user
+  
+  has_many :reported_service_project_signups, dependent: :destroy
+  has_many :reported_attendees, through: :reported_service_proejct_signups, source: :user
 
   after_update :update_waitlist, :update_host
 

@@ -1,0 +1,86 @@
+<div class="row">
+  <p id="notice"><%= notice %></p>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-9">
+    <p>
+      <strong>Name:</strong>
+      <%= @fellowship.name %>
+    </p>
+
+    <p>
+      <strong>Host(s):</strong>
+      <% @fellowship.hosts.each do |host| %>
+        <br /><%= host.preferred_full_name %>
+      <% end %>
+    </p>
+
+    <p>
+      <strong>Has Signup Form:</strong>
+      <% @fellowship.has_signup_form ? 'Yes' : 'No' %>
+    </p>
+
+    <p>
+      <strong>Fellowship Type:</strong>
+      <%= @fellowship.fellowship_type %>
+    </p>
+
+    <p>
+      <strong>Location:</strong>
+      <%= @fellowship.location %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= @fellowship.description %>
+    </p>
+
+    <p>
+      <strong>Start time:</strong>
+      <%= @fellowship.start_time %>
+    </p>
+
+    <p>
+      <strong>End time:</strong>
+      <%= @fellowship.end_time %>
+    </p>
+  </div>
+  <div class="col-xs-12 col-md-3">
+    <% if @fellowship.hosts.include? current_user %>
+      <h4>Report Fellowship</h4>
+      <%= link_to 'Report Fellowship', reporting_form_fellowship_path(@fellowship) %>
+    <% elsif @fellowship.has_signup_form && current_user.pending_fellowships.include?(@fellowship) %>
+      <h4>Drop Fellowship</h4>
+      <%= link_to 'Drop Fellowship', drop_fellowship_path(@fellowship), method: :delete %>
+    <% elsif @fellowship.has_signup_form %>
+      <h4>Sign Up for Fellowship</h4>
+      <%= link_to 'Sign Up', sign_up_fellowship_path(@fellowship), method: :post %>
+    <% end %>
+  </div>
+</div>
+
+<% if @fellowship.has_signup_form %>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <h4>Attendees</h4>
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+        </tr>
+        <% @fellowship.pending_attendees.each do |user| %>
+          <tr>
+            <td><%= user.preferred_full_name %></td>
+            <td><%= user.phone_number %></td>
+            <td><%= user.email %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to 'Edit', edit_fellowship_path(@fellowship) %> |
+<%= link_to 'Back', fellowships_path %>

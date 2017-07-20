@@ -1,24 +1,26 @@
-# README
+# Getting Started
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ruby and Rails Versions
+This repository uses Ruby version 2.4.1 and Rails 5.0.2.
 
-Things you may want to cover:
+## Installing Ruby
+I recommend using the [Ruby Version Manager (RVM)](https://rvm.io/) to manage and install Ruby versions. Run the following command in your terminal to install RVM and Ruby version 2.4.1: `\curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1`
 
-* Ruby version
+Set Ruby 2.4.1 as your default Ruby version: `rvm --default use ruby-2.4.1`
 
-* System dependencies
+## Installing Rails
+Create and switch to a new gemset in RVM for Rails 5.0.2 as follows: `rvm use 2.4.1@rails502 --create`
 
-* Configuration
+Install Rails 5.0.2: `gem install rails -v 5.0.2`
 
-* Database creation
+## Setting up the project
+Travel to the directory that you would like to pull the project down to and run: `git clone https://github.com/jackieaskins/APO-Portal.git`.
 
-* Database initialization
+Once you've cloned the repository, `cd` into the new directory and run `bundle install` to install all of the necessary gems
 
-* How to run the test suite
+## Setting up the database
+The project currently uses a SQLite database. Run `rails db:setup` to create the database and seed some initial data.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Running the server
+To run the rails server, run `rails server` or `rails s`. You can view the site in your web browser at localhost:3000
 
-* Deployment instructions
-
-* ...
