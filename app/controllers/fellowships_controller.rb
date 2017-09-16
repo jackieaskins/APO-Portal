@@ -80,6 +80,10 @@ class FellowshipsController < ApplicationController
   end
 
   def report
+    params[:attendees].each do |attendee_id|
+      User.find(attendee_id).reported_fellowship_signups.create(fellowship: @fellowship, points: 1, is_host: params[:hosts].include?(attendee_id))
+    end
+    redirect_to @fellowship
   end
 
   private

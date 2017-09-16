@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170715042933) do
     t.integer  "user_id"
     t.integer  "fellowship_id"
     t.decimal  "points"
+    t.boolean  "is_host"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["fellowship_id"], name: "index_reported_fellowship_signups_on_fellowship_id"

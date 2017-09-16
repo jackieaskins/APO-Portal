@@ -13,17 +13,17 @@
     </tr>
     <% @fellowship.pending_attendees.each do |user| %>
       <tr>
-        <td><%= check_box_tag 'attendees[]', user.id, @fellowship.hosts.include?(user) %></td>
-        <td><%= user.preferred_full_name %></td>
-        <td><span class="glyphicon glyphicon-remove remove-row"></span></td>
+        <td><%= check_box_tag 'hosts[]', user.id, @fellowship.hosts.include?(user) %></td>
+        <td><%= user.preferred_full_name %><%= hidden_field_tag 'attendees[]', user.id %></td>
+        <td><span class="glyphicon glyphicon-remove fellowship-remove-row"></span></td>
       </tr>
     <% end %>
-    <tr id="additional_attendee_row" hidden>
-      <td><%= check_box_tag 'attendees[]', '', false %></td>
-      <td><%= select_tag 'attendees[]', options_from_collection_for_select(@users, :id, :preferred_full_name), include_blank: true, class: 'form-control', disabled: true %></td>
-      <td><span class="glyphicon glyphicon-remove remove-row"></span></td>
+    <tr id="fellowship_additional_attendee_row" hidden>
+      <td><%= check_box_tag 'hosts[]', '', false %></td>
+      <td><%= select_tag 'attendees[]', options_from_collection_for_select(@users, :id, :preferred_full_name), include_blank: true, class: 'form-control fellowship-additional-attendees', disabled: true %></td>
+      <td><span class="glyphicon glyphicon-remove fellowship-remove-row"></span></td>
     </tr>
   </table>
-  <%= button_tag 'Add Additional Attendee', type: 'button', class: 'btn btn-default pull-right', id: 'add_additional_attendee' %>
-  <%= button_tag 'Submit', class: 'btn btn-default' %>
+  <%= button_tag 'Add Additional Attendee', type: 'button', class: 'btn btn-default pull-right', id: 'fellowship_add_additional_attendee' %>
+  <%= button_tag 'Submit', id: 'fellowship_submit_btn', class: 'btn btn-default' %>
 <% end %>
