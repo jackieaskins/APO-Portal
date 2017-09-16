@@ -77,10 +77,11 @@ class ServiceProjectsController < ApplicationController
   end
 
   def report
+    all_attendees = params[:additional_attendees] ? params[:attendees] + params[:additional_attendees] : params[:attendees]
     params[:attendees_points].each do |attendee_id, points|
-      all_attendees = params[:additional_attendees] ? params[:attendees] + params[:additional_attendees] : params[:attendees]
+      attendee = User.find(attendee_id)
       project_points = all_attendees.include?(attendee_id) ? points : -1
-      User.find(attendee_id).reported_service_project_signups.create(service_project: @service_project, points: project_points)
+      attendee.reported_service_project_signups.create(service_project: @service_project, points: project_points, is_host: current_user == attendee)
     end
 
     redirect_to @service_project

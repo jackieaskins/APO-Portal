@@ -1,10 +1,13 @@
 $(document).on('turbolinks:load', function () {
+    // var $submit_btn = '#submit_btn';
+    // var $remove_row = '.remove-row';
+    // var $additional_attendees = '.additional-attendees';
 
-    $('#new_fellowship').submit(function() {
-        if ($('#fellowship_fellowship_hosts_attributes_0_host_id').find(':selected').text() === '') {
-            $('#fellowship_fellowship_hosts_attributes_0_host_id').prop('disabled', true);
-        }
-    });
+    // $('#new_fellowship').submit(function() {
+    //     if ($('#fellowship_fellowship_hosts_attributes_0_host_id').find(':selected').text() === '') {
+    //         $('#fellowship_fellowship_hosts_attributes_0_host_id').prop('disabled', true);
+    //     }
+    // });
 
     // $(document).on('click', '.remove-row', function() {
     //     $(this).parents('tr').remove();
@@ -25,6 +28,7 @@ $(document).on('turbolinks:load', function () {
     //     $new_row.removeAttr('id');
     //     $new_row.removeAttr('hidden');
     //     $new_row.find('input').prop('disabled', false);
+    //     $new_row.find('select').prop('disabled', false);
     //     $('#additional_attendee_row').before($new_row);
     //     $submit_btn.prop('disabled', true);
     // });

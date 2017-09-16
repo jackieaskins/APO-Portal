@@ -32,65 +32,87 @@
     </p>
   </div>
   <div class="col-xs-12 col-md-3">
-    <% if current_user.pending_service_projects.include? @service_project %>
-      <h4>Drop Project</h4>
-      <%= link_to 'Drop Project', drop_service_project_path(@service_project), method: :delete %>
-      <% if current_user == @service_project.host %>
-        | <%= link_to 'Report Service Project', reporting_form_service_project_path(@service_project) %>
+    <% if @service_project.reported_service_project_signups.empty? %>
+      <% if current_user.pending_service_projects.include? @service_project %>
+        <h4>Drop Project</h4>
+        <%= link_to 'Drop Project', drop_service_project_path(@service_project), method: :delete %>
+        <% if current_user == @service_project.host %>
+          | <%= link_to 'Report Service Project', reporting_form_service_project_path(@service_project) %>
+        <% end %>
+      <% else %>
+        <h4>Sign Up for Project</h4>
+        <%= form_tag sign_up_service_project_path(@service_project), class: 'form-inline' do %>
+          <%= label_tag :host_filter do %>
+            <abbr title="required">*</abbr> Would you like to be host?
+          <% end %>
+          <%= select_tag :host_filter, options_for_select(['Yes', 'Yes, if necessary', 'No']), class: 'form-control select required', include_blank: true %>
+          <%= button_tag 'Sign Up', class: 'btn btn-default' %>
+        <% end %>
       <% end %>
     <% else %>
-      <h4>Sign Up for Project</h4>
-      <%= form_tag sign_up_service_project_path(@service_project), class: 'form-inline' do %>
-        <%= label_tag :host_filter do %>
-          <abbr title="required">*</abbr> Would you like to be host?
-        <% end %>
-        <%= select_tag :host_filter, options_for_select(['Yes', 'Yes, if necessary', 'No']), class: 'form-control select required', include_blank: true %>
-        <%= button_tag 'Sign Up', class: 'btn btn-default' %>
-      <% end %>
+      <p>This project has been reported!</p>
     <% end %>
   </div>
 </div>
 
 <div class="row">
+  <% if @service_project.reported_service_project_signups.empty? %>
   <div class="col-xs-12 col-md-6">
-  <h4>Attendees</h4>
-    <table class="table table-hover table-condensed">
-      <tr>
-        <th>Name</th>
-        <th>Phone Number</th>
-        <th>Email</th>
-        <th>Host?</th>
-      </tr>
-      <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
+    <h4>Attendees</h4>
+      <table class="table table-hover table-condensed">
         <tr>
-          <td><%= user.preferred_full_name %></td>
-          <td><%= user.phone_number %></td>
-          <td><%= user.email %></td>
-          <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Host?</th>
         </tr>
-      <% end %>
-    </table>
-  </div>
+        <% @service_project.pending_nonwaitlist_attendees.each do |user| %>
+          <tr>
+            <td><%= user.preferred_full_name %></td>
+            <td><%= user.phone_number %></td>
+            <td><%= user.email %></td>
+            <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
 
-  <div class="col-xs-12 col-md-6">
-    <h4>Waitlist</h4>
+    <div class="col-xs-12 col-md-6">
+      <h4>Waitlist</h4>
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Host?</th>
+        </tr>
+        <% @service_project.pending_waitlist_attendees.each do |user| %>
+          <tr>
+            <td><%= user.preferred_full_name %></td>
+            <td><%= user.phone_number %></td>
+            <td><%= user.email %></td>
+            <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% else %>
+    <h4>Attendees</h4>
     <table class="table table-hover table-condensed">
       <tr>
         <th>Name</th>
-        <th>Phone Number</th>
-        <th>Email</th>
+        <th>Points</th>
         <th>Host?</th>
       </tr>
-      <% @service_project.pending_waitlist_attendees.each do |user| %>
+      <% @service_project.reported_service_project_signups.each do |signup| %>
         <tr>
-          <td><%= user.preferred_full_name %></td>
-          <td><%= user.phone_number %></td>
-          <td><%= user.email %></td>
-          <td><%= user.pending_service_project_signups.find_by(service_project: @service_project).host_filter %></td>
+          <td><%= signup.user.preferred_full_name %></td>
+          <td><%= signup.points %></td>
+          <td><%= signup.is_host ? 'Yes' : 'No' %></td>
         </tr>
       <% end %>
     </table>
-  </div>
+  <% end %>
 </div>
 
 <%= link_to 'Edit', edit_service_project_path(@service_project) %> |

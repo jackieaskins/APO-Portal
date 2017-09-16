@@ -4,6 +4,7 @@ class CreateReportedServiceProjectSignups < ActiveRecord::Migration[5.0]
       t.references :user, foreign_key: true
       t.references :service_project, foreign_key: true
       t.decimal :points
+      t.boolean :is_host
 
       t.timestamps
     end
