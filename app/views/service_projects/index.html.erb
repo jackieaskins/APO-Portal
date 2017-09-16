@@ -1,39 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Service Projects</h1>
+<%= month_calendar(attribute: :start_time, end_attribute: :end_time, events: @service_projects) do |date, service_projects| %>
+  <%= date.day %>
 
-<table class="table table-hover table-condensed">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Time</th>
-      <th>Location</th>
-      <th>Host</th>
-      <th>Project Type</th>
-      <th>Max Volunteers</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @service_projects.each do |service_project| %>
-      <tr>
-        <td><%= service_project.name %></td>
-        <td>
-          <%= service_project.start_end_time %>
-        </td>
-        <td><%= service_project.location %></td>
-        <td><%= service_project.host.preferred_full_name if service_project.host %></td>
-        <td><%= service_project.project_type %></td>
-        <td><%= service_project.max_volunteers %></td>
-        <td><%= link_to 'Show', service_project %></td>
-        <td><%= link_to 'Edit', edit_service_project_path(service_project) %></td>
-        <td><%= link_to 'Destroy', service_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Service Project', new_service_project_path %>
+  <% service_projects.each do |service_project| %>
+    <div>
+      <%= link_to "#{service_project.start_time.strftime('%l:%M%P')} - #{service_project.name}", service_project %>
+    </div>
+  <% end %>
+<% end %>
