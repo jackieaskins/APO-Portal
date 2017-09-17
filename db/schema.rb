@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170715042933) do
+ActiveRecord::Schema.define(version: 20170916162124) do
 
   create_table "fellowship_hosts", force: :cascade do |t|
     t.integer  "fellowship_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20170715042933) do
   end
 
   create_table "fellowships", force: :cascade do |t|
+    t.integer  "semester_id"
     t.string   "name"
     t.boolean  "has_signup_form"
     t.string   "fellowship_type"
@@ -31,6 +32,7 @@ ActiveRecord::Schema.define(version: 20170715042933) do
     t.datetime "end_time"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["semester_id"], name: "index_fellowships_on_semester_id"
   end
 
   create_table "lineages", force: :cascade do |t|
@@ -63,9 +65,10 @@ ActiveRecord::Schema.define(version: 20170715042933) do
 
   create_table "pledge_classes", force: :cascade do |t|
     t.string   "name"
-    t.string   "semester"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "semester_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["semester_id"], name: "index_pledge_classes_on_semester_id"
   end
 
   create_table "reported_fellowship_signups", force: :cascade do |t|
@@ -90,7 +93,16 @@ ActiveRecord::Schema.define(version: 20170715042933) do
     t.index ["user_id"], name: "index_reported_service_project_signups_on_user_id"
   end
 
+  create_table "semesters", force: :cascade do |t|
+    t.string   "season"
+    t.integer  "year"
+    t.boolean  "current",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "service_projects", force: :cascade do |t|
+    t.integer  "semester_id"
     t.string   "name"
     t.text     "description"
     t.datetime "start_time"
@@ -102,6 +114,7 @@ ActiveRecord::Schema.define(version: 20170715042933) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["host_id"], name: "index_service_projects_on_host_id"
+    t.index ["semester_id"], name: "index_service_projects_on_semester_id"
   end
 
   create_table "users", force: :cascade do |t|

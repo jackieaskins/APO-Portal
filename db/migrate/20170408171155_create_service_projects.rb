@@ -1,6 +1,7 @@
 class CreateServiceProjects < ActiveRecord::Migration[5.0]
   def change
     create_table :service_projects do |t|
+      t.references :semester, foreign_key: true
       t.string :name
       t.text :description
       t.datetime :start_time

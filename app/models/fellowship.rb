@@ -1,6 +1,8 @@
 class Fellowship < ApplicationRecord
   validates_presence_of :name, :fellowship_type, :location, :description, :start_time, :end_time
 
+  belongs_to :semester
+
   has_many :fellowship_hosts, inverse_of: :fellowship, dependent: :destroy
   has_many :hosts, through: :fellowship_hosts, source: :host
 

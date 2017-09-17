@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  helper_method def current_semester
+    @current_semester ||= Semester.find_by_current(true)
+  end
+
   protected
 
   def configure_permitted_parameters

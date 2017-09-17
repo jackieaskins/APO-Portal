@@ -3,6 +3,8 @@ class ServiceProject < ApplicationRecord
 
   belongs_to :host, class_name: 'User', optional: true
 
+  belongs_to :semester
+
   has_many :pending_service_project_signups, dependent: :destroy
   has_many :pending_attendees, through: :pending_service_project_signups, source: :user
   

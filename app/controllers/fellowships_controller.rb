@@ -81,6 +81,7 @@ class FellowshipsController < ApplicationController
 
   def report
     params[:attendees].each do |attendee_id|
+      # TODO: Update number of points assigned based on fellowship type
       User.find(attendee_id).reported_fellowship_signups.create(fellowship: @fellowship, points: 1, is_host: params[:hosts].include?(attendee_id))
     end
     redirect_to @fellowship
@@ -94,7 +95,7 @@ class FellowshipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def fellowship_params
-      params.require(:fellowship).permit(:name, :fellowship_type, :location, :description, :start_time, :end_time, :has_signup_form, fellowship_hosts_attributes: [:id, :host_id])
+      params.require(:fellowship).permit(:semester, :name, :fellowship_type, :location, :description, :start_time, :end_time, :has_signup_form, fellowship_hosts_attributes: [:id, :host_id])
     end
 
     def authenticate_host

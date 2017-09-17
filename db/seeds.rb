@@ -1,6 +1,8 @@
+s2015 = Semester.create!(season: 'Spring', year: 2015)
+f2017 = Semester.create!(season: 'Fall', year: 2017, current: true)
 dollar_sign_lin = Lineage.create!(name: '$lin')
 wincest_lin = Lineage.create!(name: 'Wincest')
-alpha_chi = PledgeClass.create!(name: 'Alpha Chi')
+alpha_chi = PledgeClass.create!(name: 'Alpha Chi', semester: s2015)
 User.create!(
   email: 'jackie@example.com',
   password: '123456',
@@ -35,11 +37,27 @@ User.create!(
   minor: 'Computer Science, French, Linguistics',
   birthday: '1996-03-02'
 )
-ServiceProject.create!(
-  name: 'Test Service Project',
-  start_time: DateTime.now.change({ hour: 18, min: 0, sec: 0 }),
-  end_time: DateTime.now.change({ hour: 19, min: 30, sec:0 }),
-  location: 'Harnwell 1409',
-  project_type: 'General Service Project',
-  max_volunteers: 2
-)
+
+(1..5).each do |num|
+  ServiceProject.create!(
+    name: "Service Project #{num}",
+    semester: f2017,
+    start_time: DateTime.new(2017, 9, 17 + (2 * num), 12 + num, 0, 0),
+    end_time: DateTime.new(2017, 9, 17 + (2 * num), 13 + num, 30, 0),
+    location: "Location #{num}",
+    project_type: 'General Service Project',
+    max_volunteers: num < 2 ? 2 : num
+  )
+end
+
+(1..5).each do |num|
+  Fellowship.create!(
+    semester: f2017,
+    name: "Fellowship #{num}",
+    fellowship_type: 'Regular',
+    location: "Location #{num}",
+    description: 'Fun, fun, fun!',
+    start_time: DateTime.new(2017, 9, 17 + (2 * num), 12 + num, 0, 0),
+    end_time: DateTime.new(2017, 9, 17 + (2 * num), 13 + num, 30, 0),
+  )
+end
